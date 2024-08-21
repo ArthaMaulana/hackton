@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_day2/bloc/auth/auth_bloc.dart';
-import 'package:flutter_day2/config/const.dart';
 import 'package:flutter_day2/views/auth/login_page.dart';
 import 'package:flutter_day2/views/dasboard/dashboard_page.dart';
 
@@ -15,7 +14,7 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(Duration(seconds: 2), () {
       context.read<AuthBloc>().add(OnSignInCheck());
     });
   }
@@ -58,14 +57,14 @@ class _SplashPageState extends State<SplashPage> {
           }
         }
       },
-      child: const Scaffold(
-        backgroundColor: appBarBackgroundColor,
+      child: Scaffold(
+        backgroundColor: Colors.white,
         body: Center(
-          child: Text(
-            "welcome AgriTrio",
-            style: TextStyle(color: cardBackgroundColor),
-          ),
-        ),
+            child: Image.asset(
+          'assets/images/logo.png', // Update with your image path
+          width: 200,
+          height: 200,
+        )),
       ),
     );
   }
