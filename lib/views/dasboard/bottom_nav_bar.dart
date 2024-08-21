@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'dashboard_page.dart';
+import 'market_page.dart'; // Import the Market page
 import 'pelatihan_page.dart';
 
 class BottomNavBar extends StatelessWidget {
@@ -32,6 +33,13 @@ class BottomNavBar extends StatelessWidget {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const PelatihanPage()),
+          );
+        } else if (index == 2 && selectedIndex != 2) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    const MarketPage()), // Navigate to the Market page
           );
         }
         // Tambahkan kondisi lain untuk halaman lain jika diperlukan

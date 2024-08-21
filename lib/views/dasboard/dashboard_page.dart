@@ -91,12 +91,6 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
           ],
         ),
-        // actions: [
-        //   IconButton(
-        //     icon: const Icon(Icons.notifications, color: Colors.green),
-        //     onPressed: () {},
-        //   ),
-        // ],
         actions: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -111,7 +105,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   decoration: BoxDecoration(
                       color: primaryColor,
                       borderRadius: BorderRadius.circular(12)),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       "Logout",
                     ),
@@ -128,19 +122,46 @@ class _DashboardPageState extends State<DashboardPage> {
           // Search Bar
           Container(
             margin: const EdgeInsets.only(bottom: 16),
+            decoration: BoxDecoration(
+              color: Colors.white, // Background color
+              borderRadius: BorderRadius.circular(20), // Rounded corners
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5), // Shadow color
+                  spreadRadius: 2,
+                  blurRadius: 8,
+                  offset: const Offset(0, 4), // Shadow position
+                ),
+              ],
+            ),
             child: TextField(
               decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.search, color: Colors.grey),
-                suffixIcon: const Icon(Icons.mic, color: Colors.grey),
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.all(
+                      8.0), // Adjusts the padding around the microphone icon
+                  child: Icon(Icons.mic,
+                      color: Colors.grey, size: 20), // Smaller microphone icon
+                ),
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.all(
+                      8.0), // Adjusts the padding around the search icon
+                  child: Icon(Icons.search,
+                      color: Colors.grey, size: 20), // Smaller search icon
+                ),
                 hintText: 'Search',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide.none, // Removes the default border
                 ),
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 8.0), // Reduces the height of the TextField
                 filled: true,
-                fillColor: Colors.grey[200],
+                fillColor: Colors.white
+                    .withOpacity(0.9), // Slightly translucent background
               ),
             ),
           ),
+
           // Carousel Slider
           CarouselSlider(
             items: sliderItems,
@@ -205,17 +226,38 @@ class _DashboardPageState extends State<DashboardPage> {
             trailing: const Icon(Icons.arrow_forward_ios),
             onTap: () {},
           ),
+          Divider(
+            endIndent: width * 0.01,
+            indent: width * 0.03,
+            thickness: 1,
+            color: Colors.black,
+            height: 0.1,
+          ),
           ListTile(
             title: const Text('Budidaya ayam freerange'),
             subtitle: const Text('Peternakan'),
             trailing: const Icon(Icons.arrow_forward_ios),
             onTap: () {},
           ),
+          Divider(
+            endIndent: width * 0.01,
+            indent: width * 0.03,
+            thickness: 1,
+            color: Colors.black,
+            height: 0.1,
+          ),
           ListTile(
             title: const Text('Budidaya ikan gabus'),
             subtitle: const Text('Perikanan'),
             trailing: const Icon(Icons.arrow_forward_ios),
             onTap: () {},
+          ),
+          Divider(
+            endIndent: width * 0.01,
+            indent: width * 0.03,
+            thickness: 1,
+            color: Colors.black,
+            height: 0.1,
           ),
           const SizedBox(height: 16),
           // Special for You Section
@@ -232,15 +274,38 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               TextButton(
                 onPressed: () {},
-                child: const Text('Lihat semua'),
+                child: const Text('See All'),
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+          // Grid of Special Cards
+          GridView.count(
+            shrinkWrap: true,
+            crossAxisCount: 2,
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            childAspectRatio: 0.8, // Adjust this value to change the card size
             children: [
-              buildSpecialCard('Telur Ayam', 'Rp 10.000/kg', Icons.egg),
-              buildSpecialCard('Pakcoy Segar', 'Rp 10.000/ikat', Icons.grass),
+              buildSpecialCard(
+                  'Telur Ayam', 'Rp 10.000/kg', 'assets/images/bunga1.jpg',
+                  badgeText: "Harga Turun",
+                  badgeColor: Colors.green,
+                  priceStatus: 'turun'),
+              buildSpecialCard(
+                  'Pakcoy Segar', 'Rp 10.000/ikat', 'assets/images/bunga1.jpg',
+                  badgeText: "Harga Naik",
+                  badgeColor: Colors.red,
+                  priceStatus: 'naik'),
+              buildSpecialCard('Tomat Merah Segar', 'Rp 10.000/kg',
+                  'assets/images/bunga1.jpg',
+                  badgeText: "Harga Normal",
+                  badgeColor: Colors.blue,
+                  priceStatus: 'normal'),
+              buildSpecialCard(
+                  'Ikan Lele', 'Rp 10.000/kg', 'assets/images/bunga1.jpg',
+                  badgeText: "Harga Turun",
+                  badgeColor: Colors.green,
+                  priceStatus: 'turun'),
             ],
           ),
         ],
@@ -252,75 +317,57 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  Widget buildSliderCard(String title, String subtitle, String imageUrl) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20), // Rounded corners
-        image: DecorationImage(
-          image: AssetImage(imageUrl),
-          fit: BoxFit.cover, // Stretch to cover
-        ),
+  Widget buildSliderCard(String title, String description, String imageUrl) {
+    return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Stack(
         children: [
-          Positioned(
-            top: 20,
-            left: 20,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.asset(
+              imageUrl,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              gradient: LinearGradient(
+                colors: [
+                  Colors.black.withOpacity(0.7),
+                  Colors.transparent,
+                ],
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+              ),
+            ),
+            padding: const EdgeInsets.all(16),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
                   style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    shadows: [
-                      Shadow(
-                        offset: Offset(1.0, 1.0),
-                        blurRadius: 3.0,
-                        color: Colors.black,
-                      ),
-                    ],
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  subtitle,
+                  description,
                   style: const TextStyle(
-                    color: Colors.white,
                     fontSize: 16,
-                    shadows: [
-                      Shadow(
-                        offset: Offset(1.0, 1.0),
-                        blurRadius: 3.0,
-                        color: Colors.black,
-                      ),
-                    ],
+                    color: Colors.white,
                   ),
                 ),
               ],
-            ),
-          ),
-          Positioned(
-            bottom: 20,
-            right: 20,
-            child: ElevatedButton.icon(
-              onPressed: () {
-                // Handle button press
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white.withOpacity(0.8),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-              icon: const Icon(Icons.arrow_forward, color: Colors.green),
-              label: const Text(
-                'Cek Promo',
-                style: TextStyle(color: Colors.green),
-              ),
             ),
           ),
         ],
@@ -328,37 +375,81 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  Widget buildSpecialCard(String title, String price, IconData iconData) {
-    return Card(
-      elevation: 5,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Icon(iconData, color: Colors.green, size: 40),
-            const SizedBox(height: 10),
-            Text(
-              title,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 18,
+  Widget buildSpecialCard(String title, String price, String imageUrl,
+      {String? badgeText, Color? badgeColor, String? priceStatus}) {
+    return Stack(
+      children: [
+        Card(
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+                child: Image.asset(
+                  imageUrl,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: 120,
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              price,
-              style: const TextStyle(
-                color: Colors.green,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+              const SizedBox(height: 8),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 4),
+              Text(
+                price,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
+        if (badgeText != null)
+          Positioned(
+            top: 8,
+            right: 8,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: badgeColor,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    badgeText,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  if (priceStatus == 'naik')
+                    Icon(Icons.arrow_upward, color: Colors.white, size: 16)
+                  else if (priceStatus == 'turun')
+                    Icon(Icons.arrow_downward, color: Colors.white, size: 16)
+                  else if (priceStatus == 'normal')
+                    Icon(Icons.line_weight,
+                        color: Colors.white, size: 16) // Garis tiga
+                ],
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
