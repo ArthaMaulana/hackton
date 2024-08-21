@@ -1,5 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_day2/bloc/auth/auth_bloc.dart';
+import 'package:flutter_day2/config/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bottom_nav_bar.dart';
@@ -14,7 +17,7 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   final String profileImageUrl = "assets/images/img_profile_pict.jpg";
   final CarouselController _carouselController = CarouselController();
-  int _current = 0; // Untuk melacak indeks saat ini dari slider
+  int _current = 0;
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -39,19 +42,19 @@ class _DashboardPageState extends State<DashboardPage> {
 
     final List<Widget> sliderItems = [
       buildSliderCard(
-        'Selamat Datang!',
-        'Mari buat desain proyek Anda',
-        Icons.eco,
+        'Welcome!',
+        'Let\'s create your project design',
+        'assets/images/bunga1.jpg',
       ),
       buildSliderCard(
-        'Promo Spesial!',
-        'Cek Promo untuk penawaran spesial',
-        Icons.local_offer,
+        'Special Promo!',
+        'Check promo for special offers',
+        'assets/images/bunga2.jpg',
       ),
       buildSliderCard(
-        'Belajar Baru',
-        'Pelajari teknik terbaru di bidangmu',
-        Icons.school,
+        'New Learning',
+        'Learn the latest techniques in your field',
+        'assets/images/bunga3.jpg',
       ),
     ];
 
@@ -67,32 +70,69 @@ class _DashboardPageState extends State<DashboardPage> {
               radius: 20,
             ),
             const SizedBox(width: 8),
-            const Text(
-              'Selamat Datang Muhammad',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
+            RichText(
+              text: const TextSpan(
+                text: 'Welcome\n',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 16,
+                ),
+                children: [
+                  TextSpan(
+                    text: 'Artha',
+                    style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
         ),
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.notifications, color: Colors.green),
+        //     onPressed: () {},
+        //   ),
+        // ],
         actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications, color: Colors.green),
-            onPressed: () {},
-          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  context.read<AuthBloc>().add(OnSignOut());
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(right: 8),
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Center(
+                    child: Text(
+                      "Logout",
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
         ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          // Bilah Pencarian
+          // Search Bar
           Container(
             margin: const EdgeInsets.only(bottom: 16),
             child: TextField(
               decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.search),
-                hintText: 'Cari...',
+                prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                suffixIcon: const Icon(Icons.mic, color: Colors.grey),
+                hintText: 'Search',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -109,7 +149,8 @@ class _DashboardPageState extends State<DashboardPage> {
               height: 200.0,
               autoPlay: true,
               enlargeCenterPage: true,
-              aspectRatio: 2.0,
+              aspectRatio: 2.5, // Make the image stretch horizontally
+              viewportFraction: 1.0, // Full-width images
               onPageChanged: (index, reason) {
                 setState(() {
                   _current = index;
@@ -117,7 +158,7 @@ class _DashboardPageState extends State<DashboardPage> {
               },
             ),
           ),
-          // Indikator Titik
+          // Dots Indicator
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: sliderItems.asMap().entries.map((entry) {
@@ -140,7 +181,7 @@ class _DashboardPageState extends State<DashboardPage> {
             }).toList(),
           ),
           const SizedBox(height: 16),
-          // Bagian Pembelajaran Terbaru
+          // Recent Learning Section
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -177,7 +218,7 @@ class _DashboardPageState extends State<DashboardPage> {
             onTap: () {},
           ),
           const SizedBox(height: 16),
-          // Bagian Spesial untuk Kamu
+          // Special for You Section
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -211,55 +252,78 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  Widget buildSliderCard(String title, String subtitle, IconData iconData) {
-    return Card(
-      elevation: 5,
-      color: Colors.green[100],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+  Widget buildSliderCard(String title, String subtitle, String imageUrl) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 8.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20), // Rounded corners
+        image: DecorationImage(
+          image: AssetImage(imageUrl),
+          fit: BoxFit.cover, // Stretch to cover
+        ),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            Icon(iconData, color: Colors.green, size: 40),
-            const SizedBox(width: 20),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      color: Colors.green,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+      child: Stack(
+        children: [
+          Positioned(
+            top: 20,
+            left: 20,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    shadows: [
+                      Shadow(
+                        offset: Offset(1.0, 1.0),
+                        blurRadius: 3.0,
+                        color: Colors.black,
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    subtitle,
-                    style: const TextStyle(
-                      color: Colors.black54,
-                      fontSize: 16,
-                    ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  subtitle,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    shadows: [
+                      Shadow(
+                        offset: Offset(1.0, 1.0),
+                        blurRadius: 3.0,
+                        color: Colors.black,
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            TextButton(
-              onPressed: () {},
-              child: const Text('Cek Promo'),
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.green,
+          ),
+          Positioned(
+            bottom: 20,
+            right: 20,
+            child: ElevatedButton.icon(
+              onPressed: () {
+                // Handle button press
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white.withOpacity(0.8),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
+              icon: const Icon(Icons.arrow_forward, color: Colors.green),
+              label: const Text(
+                'Cek Promo',
+                style: TextStyle(color: Colors.green),
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

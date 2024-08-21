@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_day2/bloc/auth/auth_bloc.dart';
-import 'package:flutter_day2/config/const.dart';
 import 'package:flutter_day2/views/dasboard/dashboard_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -61,179 +60,216 @@ class _LoginPageState extends State<LoginPage> {
         }
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Logo Widget
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Image.asset(
-                    'assets/images/logo.png', // Update with your logo path
-                    width: 200, // Adjust size as needed
-                    height: 200, // Adjust size as needed
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFFD5E8BC), Colors.white],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Logo Widget
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Image.asset(
+                      'assets/images/logo.png', // Update with your logo path
+                      width: 150, // Adjust size as needed
+                      height: 150, // Adjust size as needed
+                    ),
                   ),
-                ),
-                const SizedBox(height: 50),
-                // Title Text
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.1,
+                  const SizedBox(height: 20),
+                  // Title Text
+                  const Text(
+                    "POLITEKNIK NEGERI LAMPUNG",
+                    style: TextStyle(
+                      color: Color(0xFF3B5738),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
                   ),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: const Text(
-                      "Log In",
+                  const SizedBox(height: 40),
+                  // Card Container for Login Form
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Column(
+                      children: [
+                        // "Log In" Text
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: const Text(
+                            "LOG IN",
+                            style: TextStyle(
+                              color: Color(0xFF3B5738),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                        // Username Field
+                        TextFormField(
+                          controller: _usernameController,
+                          style: const TextStyle(color: Colors.black),
+                          decoration: const InputDecoration(
+                            hintText: "User name",
+                            hintStyle: TextStyle(color: Colors.black),
+                            prefixIcon: Icon(
+                              Icons.person,
+                              color: Colors.black,
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        // Password Field with Visibility Toggle
+                        TextFormField(
+                          controller: _passwordController,
+                          obscureText: _obscurePassword,
+                          style: const TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            hintText: "Password",
+                            hintStyle: const TextStyle(color: Colors.black),
+                            prefixIcon: const Icon(
+                              Icons.lock,
+                              color: Colors.black,
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Colors.black,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _obscurePassword = !_obscurePassword;
+                                });
+                              },
+                            ),
+                            enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            focusedBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        // Forgot Password
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: GestureDetector(
+                            onTap: () {
+                              // Handle forgot password logic here
+                            },
+                            child: const Text(
+                              "Forgot?",
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        // Log In Button
+                        GestureDetector(
+                          onTap: () {
+                            context.read<AuthBloc>().add(
+                                  onSignIn(
+                                    email: _usernameController.text,
+                                    password: _passwordController.text,
+                                  ),
+                                );
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Color(0xFF65832D),
+                              borderRadius: BorderRadius.circular(35),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                "LOG IN",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        RichText(
+                          text: const TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "First time here? ",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "sign in",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        // Sign Up Text
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  // Terms of Service and Privacy Policy
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 30.0),
+                    child: Text(
+                      "By signing up, you agree to our Terms of service and Privacy Policy",
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 26,
+                        fontSize: 14,
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 50),
-                // Username Field
-                ConstrainedBox(
-                  constraints: BoxConstraints.tight(
-                    Size(MediaQuery.of(context).size.width * 0.8, 50),
-                  ),
-                  child: TextFormField(
-                    controller: _usernameController,
-                    style: const TextStyle(color: Colors.black),
-                    decoration: const InputDecoration(
-                      hintText: "Username",
-                      hintStyle: TextStyle(color: Colors.black),
-                      prefixIcon: Icon(
-                        Icons.person,
+                  const SizedBox(height: 10),
+                  // Contact Support
+                  GestureDetector(
+                    onTap: () {
+                      // Handle contact support logic here
+                    },
+                    child: const Text(
+                      "Contact support",
+                      style: TextStyle(
                         color: Colors.black,
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
+                        fontSize: 14,
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 30),
-                // Password Field with Visibility Toggle
-                ConstrainedBox(
-                  constraints: BoxConstraints.tight(
-                    Size(MediaQuery.of(context).size.width * 0.8, 50),
-                  ),
-                  child: TextFormField(
-                    controller: _passwordController,
-                    obscureText: _obscurePassword,
-                    style: const TextStyle(color: Colors.black),
-                    decoration: InputDecoration(
-                      hintText: "Password",
-                      hintStyle: const TextStyle(color: Colors.black),
-                      prefixIcon: const Icon(
-                        Icons.lock,
-                        color: Colors.black,
-                      ),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscurePassword
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _obscurePassword = !_obscurePassword;
-                          });
-                        },
-                      ),
-                      enabledBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                      focusedBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 8),
-                Row(
-                  children: [
-                    Spacer(), // Mengisi ruang kosong di antara elemen dan ujung kiri Row
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          right: 48.0), // Memberikan margin 16 di sebelah kanan
-                      child: GestureDetector(
-                        onTap: () {
-                          // Handle forgot password logic here
-                        },
-                        child: const Text(
-                          "Forgot Password?",
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 40),
-                // Log In Button
-                GestureDetector(
-                  onTap: () {
-                    context.read<AuthBloc>().add(
-                          onSignIn(
-                            email: _usernameController.text,
-                            password: _passwordController.text,
-                          ),
-                        );
-                  },
-                  child: Container(
-                    width: 150,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: appBarBackgroundColor,
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        "Log In",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                // Sign Up Text
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "First time here? ",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
-                        ),
-                      ),
-                      TextSpan(
-                        text: "Sign up here",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w900,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
