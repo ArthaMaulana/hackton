@@ -1,0 +1,40 @@
+class ResponseGetRequest {
+  String? status;
+  int? total;
+  int? waiting;
+  int? approved;
+  int? rejected;
+  int? inprogress;
+  int? finished;
+
+  ResponseGetRequest(
+      {this.status,
+      this.total,
+      this.waiting,
+      this.approved,
+      this.rejected,
+      this.inprogress,
+      this.finished});
+
+  ResponseGetRequest.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    total = json['total'];
+    waiting = json['waiting'];
+    approved = json['approved'];
+    rejected = json['rejected'];
+    inprogress = json['inprogress'];
+    finished = json['finished'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['total'] = this.total;
+    data['waiting'] = this.waiting;
+    data['approved'] = this.approved;
+    data['rejected'] = this.rejected;
+    data['inprogress'] = this.inprogress;
+    data['finished'] = this.finished;
+    return data;
+  }
+}
