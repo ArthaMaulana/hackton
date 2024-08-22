@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'dashboard_page.dart';
-import 'market_page.dart'; // Import the Market page
+import 'forum_page.dart'; // Mengimpor ForumPage
+import 'market_page.dart';
 import 'pelatihan_page.dart';
 
 class BottomNavBar extends StatelessWidget {
@@ -23,7 +24,6 @@ class BottomNavBar extends StatelessWidget {
       onTap: (index) {
         onTap(index);
 
-        // Navigasi ke halaman yang sesuai
         if (index == 0 && selectedIndex != 0) {
           Navigator.pushReplacement(
             context,
@@ -37,12 +37,14 @@ class BottomNavBar extends StatelessWidget {
         } else if (index == 2 && selectedIndex != 2) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    const MarketPage()), // Navigate to the Market page
+            MaterialPageRoute(builder: (context) => const MarketPage()),
+          );
+        } else if (index == 3 && selectedIndex != 3) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const ForumPage()),
           );
         }
-        // Tambahkan kondisi lain untuk halaman lain jika diperlukan
       },
       items: const [
         BottomNavigationBarItem(
@@ -50,7 +52,7 @@ class BottomNavBar extends StatelessWidget {
           label: 'Beranda',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.school),
+          icon: Icon(Icons.book),
           label: 'Pelatihan',
         ),
         BottomNavigationBarItem(
@@ -58,7 +60,7 @@ class BottomNavBar extends StatelessWidget {
           label: 'Pasar',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.forum),
+          icon: Icon(Icons.people),
           label: 'Forum',
         ),
       ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'bottom_nav_bar.dart';
+import 'detail_page.dart'; // Import the DetailPage
 
 class PelatihanPage extends StatefulWidget {
   const PelatihanPage({super.key});
@@ -118,43 +119,43 @@ class _PelatihanPageState extends State<PelatihanPage>
                 title: 'Teknologi Pengendalian Hama dan Penyakit pada sayuran',
                 subtitle:
                     'Menggunakan feromon untuk menarik dan menangkap hama...',
-                imageUrl: 'assets/images/logo.png',
+                imageUrl: 'assets/images/hama.png',
               ),
               buildListItem(
                 title: 'Pertanian Hidroponik',
                 subtitle:
                     'Menanam tanaman dengan akar yang terendam dalam larutan..',
-                imageUrl: 'assets/images/logo.png',
+                imageUrl: 'assets/images/hama.png',
               ),
               buildListItem(
                 title: 'Pertanian Presisi (Precision Agriculture)',
                 subtitle:
                     'Menggunakan citra udara atau satelit untuk menganalisis...',
-                imageUrl: 'assets/images/logo.png',
+                imageUrl: 'assets/images/hama.png',
               ),
               buildListItem(
                 title: 'Pertanian Vertikal (Vertical Farming)',
                 subtitle:
                     'Menanam tanaman dalam rak bertingkat di dalam ruangan...',
-                imageUrl: 'assets/images/logo.png',
+                imageUrl: 'assets/images/hama.png',
               ),
               buildListItem(
                 title: 'Bioteknologi',
                 subtitle:
                     'Memodifikasi gen tanaman untuk meningkatkan ketahanan...',
-                imageUrl: 'assets/images/logo.png',
+                imageUrl: 'assets/images/hama.png',
               ),
               buildListItem(
                 title: 'Pertanian Aeroponik',
                 subtitle:
                     'Menggunakan kabut halus dari larutan nutrisi yang...',
-                imageUrl: 'assets/images/logo.png',
+                imageUrl: 'assets/images/hama.png',
               ),
               buildListItem(
                 title: 'Otomasi Tanaman',
                 subtitle:
                     'Alat yang secara otomatis menanam benih dalam baris yang...',
-                imageUrl: 'assets/images/logo.png',
+                imageUrl: 'assets/images/hama.png',
               ),
             ],
           ),
@@ -166,31 +167,31 @@ class _PelatihanPageState extends State<PelatihanPage>
                 title: 'Teknologi Pemuliaan Ternak',
                 subtitle:
                     'Meningkatkan kualitas genetik hewan ternak untuk produksi...',
-                imageUrl: 'assets/images/logo.png',
+                imageUrl: 'assets/images/hama.png',
               ),
               buildListItem(
                 title: 'Manajemen Kesehatan Ternak',
                 subtitle:
                     'Pengelolaan kesehatan hewan ternak untuk mengurangi risiko penyakit...',
-                imageUrl: 'assets/images/logo.png',
+                imageUrl: 'assets/images/hama.png',
               ),
               buildListItem(
                 title: 'Produksi Pakan Ternak',
                 subtitle:
                     'Mengolah dan memproduksi pakan yang efisien untuk hewan ternak...',
-                imageUrl: 'assets/images/logo.png',
+                imageUrl: 'assets/images/hama.png',
               ),
               buildListItem(
                 title: 'Pemanfaatan Bioteknologi dalam Peternakan',
                 subtitle:
                     'Penggunaan bioteknologi untuk meningkatkan produktivitas ternak...',
-                imageUrl: 'assets/images/logo.png',
+                imageUrl: 'assets/images/hama.png',
               ),
               buildListItem(
                 title: 'Pengelolaan Limbah Ternak',
                 subtitle:
                     'Pengelolaan limbah ternak untuk menjaga kebersihan dan kesehatan lingkungan...',
-                imageUrl: 'assets/images/logo.png',
+                imageUrl: 'assets/images/hama.png',
               ),
             ],
           ),
@@ -201,30 +202,30 @@ class _PelatihanPageState extends State<PelatihanPage>
               buildListItem(
                 title: 'Teknik Budidaya Ikan Air Tawar',
                 subtitle: 'Metode efektif dalam budidaya ikan air tawar...',
-                imageUrl: 'assets/images/logo.png',
+                imageUrl: 'assets/images/hama.png',
               ),
               buildListItem(
                 title: 'Manajemen Kualitas Air untuk Perikanan',
                 subtitle:
                     'Memastikan kualitas air yang optimal untuk budidaya ikan...',
-                imageUrl: 'assets/images/logo.png',
+                imageUrl: 'assets/images/hama.png',
               ),
               buildListItem(
                 title: 'Pakan Ikan Efisien',
                 subtitle: 'Produksi dan penggunaan pakan ikan yang efisien...',
-                imageUrl: 'assets/images/logo.png',
+                imageUrl: 'assets/images/hama.png',
               ),
               buildListItem(
                 title: 'Pengelolaan Kesehatan Ikan',
                 subtitle:
                     'Mencegah dan mengatasi penyakit pada ikan dengan efektif...',
-                imageUrl: 'assets/images/logo.png',
+                imageUrl: 'assets/images/hama.png',
               ),
               buildListItem(
                 title: 'Teknologi Pengolahan Hasil Perikanan',
                 subtitle:
                     'Mengolah hasil perikanan menjadi produk bernilai tinggi...',
-                imageUrl: 'assets/images/logo.png',
+                imageUrl: 'assets/images/hama.png',
               ),
             ],
           ),
@@ -251,7 +252,15 @@ class _PelatihanPageState extends State<PelatihanPage>
       subtitle: Text(subtitle, style: const TextStyle(color: Colors.grey)),
       trailing: const Icon(Icons.arrow_forward_ios, color: Colors.grey),
       onTap: () {
-        // Logic for item click
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailPage(
+              title: title,
+              imageUrl: imageUrl,
+            ),
+          ),
+        );
       },
     );
   }

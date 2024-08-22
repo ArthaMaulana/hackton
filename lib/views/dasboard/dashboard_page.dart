@@ -1,8 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_day2/bloc/auth/auth_bloc.dart';
-import 'package:flutter_day2/config/const.dart';
+import 'package:flutter_day2/views/dasboard/profile_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bottom_nav_bar.dart';
@@ -61,61 +59,55 @@ class _DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        title: Row(
-          children: [
-            CircleAvatar(
-              backgroundImage: AssetImage(profileImageUrl),
-              radius: 20,
-            ),
-            const SizedBox(width: 8),
-            RichText(
-              text: const TextSpan(
-                text: 'Welcome\n',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16,
-                ),
-                children: [
-                  TextSpan(
-                    text: 'Artha',
-                    style: TextStyle(
-                      color: Colors.green,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          automaticallyImplyLeading: false,
+          elevation: 0,
+          backgroundColor: Colors.white,
+          title: Row(
             children: [
               GestureDetector(
                 onTap: () {
-                  context.read<AuthBloc>().add(OnSignOut());
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfileScreen()),
+                  );
                 },
-                child: Container(
-                  margin: const EdgeInsets.only(right: 8),
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      color: primaryColor,
-                      borderRadius: BorderRadius.circular(12)),
-                  child: const Center(
-                    child: Text(
-                      "Logout",
-                    ),
+                child: CircleAvatar(
+                  backgroundImage: AssetImage(profileImageUrl),
+                  radius: 20,
+                ),
+              ),
+              const SizedBox(width: 8),
+              RichText(
+                text: const TextSpan(
+                  text: 'Welcome\n',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
                   ),
+                  children: [
+                    TextSpan(
+                      text: 'Artha',
+                      style: TextStyle(
+                        color: Colors.green,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
-          )
-        ],
-      ),
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.notifications),
+              onPressed: () {
+                // Aksi logout
+
+                // Anda juga bisa menambahkan logika tambahan di sini jika diperlukan
+              },
+            ),
+          ]),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
